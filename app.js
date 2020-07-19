@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const ejs = require('ejs');
 const mongoose = require('mongoose');
+const _ = require('lodash');
 
 const app = express();
 
@@ -21,6 +22,10 @@ const articleSchema = {
 };
 
 const Article = mongoose.model('Article', articleSchema);
+
+// =========================================
+// REQUEST TARGETING ALL ARTICLES
+// =========================================
 
 app
   .route('/articles')
@@ -44,6 +49,21 @@ app
   .delete((req, res) => {
     Article.deleteMany({}, (err) => {
       err ? res.send(err) : res.send('Successfully Deleted');
+    });
+  });
+
+// =========================================
+// REQUEST TARGETING SPECIFIC ARTICLES
+// =========================================
+
+app
+  .route('/articles/:articleTitle')
+
+  .get((req, res) => {
+    Article.findOne({ title: req.params.articleTitle }, (err, foundArticle) => {
+      foundArticle
+        ? res.send(foundArticle)
+        : res.send('No Articles Found With That Title.');
     });
   });
 
