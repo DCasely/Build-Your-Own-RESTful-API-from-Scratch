@@ -22,28 +22,30 @@ const articleSchema = {
 
 const Article = mongoose.model('Article', articleSchema);
 
-app.get('/articles', (req, res) => {
-  Article.find({}, (err, foundArticles) => {
-    err ? res.send(err) : res.send(foundArticles);
-  });
-});
+app
+  .route('/articles')
 
-app.post('/articles', (req, res) => {
-  const newArticle = new Article({
-    title: req.body.title,
-    content: req.body.content,
-  });
+  .get((req, res) => {
+    Article.find({}, (err, foundArticles) => {
+      err ? res.send(err) : res.send(foundArticles);
+    });
+  })
 
-  newArticle.save((err) => {
-    err ? res.send(err) : res.send('Added Articles Successfully');
-  });
-});
+  .post((req, res) => {
+    const newArticle = new Article({
+      title: req.body.title,
+      content: req.body.content,
+    });
+    newArticle.save((err) => {
+      err ? res.send(err) : res.send('Added Articles Successfully');
+    });
+  })
 
-app.delete('/articles', (req, res) => {
-  Article.deleteMany({}, (err) => {
-    err ? res.send(err) : res.send('Successfully Deleted');
+  .delete((req, res) => {
+    Article.deleteMany({}, (err) => {
+      err ? res.send(err) : res.send('Successfully Deleted');
+    });
   });
-});
 
 app.listen(process.env.PORT || 3000, function () {
   console.log('Server started on port 3000');
