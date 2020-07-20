@@ -76,6 +76,18 @@ app
         err ? res.send(err) : res.send('Successfully UPDATED Article.');
       }
     );
+  })
+
+  .patch((req, res) => {
+    console.log(req.body);
+
+    Article.update(
+      { title: req.params.articleTitle },
+      { $set: req.body },
+      (err) => {
+        err ? res.send(err) : res.send('Successfully UPDATED Article.');
+      }
+    );
   });
 
 app.listen(process.env.PORT || 3000, function () {
