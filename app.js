@@ -88,6 +88,12 @@ app
         err ? res.send(err) : res.send('Successfully UPDATED Article.');
       }
     );
+  })
+
+  .delete((req, res) => {
+    Article.deleteOne({ title: req.params.articleTitle }, (err) => {
+      err ? res.send(err) : res.send('DELETE Successful');
+    });
   });
 
 app.listen(process.env.PORT || 3000, function () {
