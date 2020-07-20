@@ -65,6 +65,17 @@ app
         ? res.send(foundArticle)
         : res.send('No Articles Found With That Title.');
     });
+  })
+
+  .put((req, res) => {
+    Article.update(
+      { title: req.params.articleTitle },
+      { title: req.body.title, content: req.body.content },
+      { overwrite: true },
+      (err, results) => {
+        err ? res.send(err) : res.send('Successfully UPDATED Article.');
+      }
+    );
   });
 
 app.listen(process.env.PORT || 3000, function () {
